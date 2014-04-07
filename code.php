@@ -33,9 +33,13 @@
 		);
 		$characters = array_keys($perlevel);
 		$compr = compr($roman);
-		for($i=0; $i<count($compr)-1; $i++)	{
-			if($perlevel[$compr[$i][0]] < $perlevel[$compr[$i+1][0]] && $compr[$i][1] > 1)
+		for($i=0; $i<count($compr); $i++)	{
+
+			if(($i <= count($compr)-2 && $perlevel[$compr[$i][0]] < $perlevel[$compr[$i+1][0]]) && $compr[$i][1] > 1)
 				return "Invalid Roman Numeral";
+
+			if(in_array($compr[$i][0], array("V", "L", "D")) && $compr[$i][1] > 1)
+				return "V, L, and D cannot exist more than once";
 		}
 
 		for($i=(strlen(trim($roman))-1); $i>=0; $i--)	{
