@@ -1,4 +1,22 @@
 <?php
+	/**
+	 *	Compresses a string into a character-count list for pre-processing
+	 */
+	function compr($string)	{
+		$list = array();
+		$last = "";
+		for($i=0; $i<strlen(trim($string)); $i++)	{
+			if($string[$i] != $last)	{
+				$last = $string[$i];
+				$list[] = array($string[$i], 1);
+			}
+			else	{
+				$list[count($list)-1][1] += 1;
+			}
+		}
+		return $list;
+	}
+
 	function todecimal($roman)	{
 		$roman = strtoupper($roman);
 
@@ -14,6 +32,11 @@
 			'M' => 1000
 		);
 		$characters = array_keys($perlevel);
+		$compr = compr($roman);
+		for($i=0; $i<count($compr)-1; $i++)	{
+			if($perlevel[$compr[$i][0]] < $perlevel[$compr[$i+1][0]] && $compr[$i][1] > 1)
+				return "Invalid Roman Numeral";
+		}
 
 		for($i=(strlen(trim($roman))-1); $i>=0; $i--)	{
 			if(!in_array($roman[$i], $characters))	{
