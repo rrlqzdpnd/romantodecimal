@@ -13,7 +13,13 @@
 			'D' => 500,
 			'M' => 1000
 		);
+		$characters = array_keys($perlevel);
+
 		for($i=(strlen(trim($roman))-1); $i>=0; $i--)	{
+			if(!in_array($roman[$i], $characters))	{
+				return 'Invalid Roman Numeral';
+			}
+
 			if($perlevel[$roman[$i]] > $perlevel[$highest])
 				$highest = $roman[$i];
 
